@@ -9,6 +9,7 @@ public class TList<T>{
         public Node(T data){
             this.data = data;
             this.next = null;
+
         }
     }
 
