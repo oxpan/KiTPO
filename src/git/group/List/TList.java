@@ -102,32 +102,46 @@ public class TList{
         return false;
     }
 
-    public boolean delete(int index){
-        //if (size < 0)
-//            return false;
+    public boolean delete(int index)
+    {
+        if (size < 0) return false;
 
-        Node temp,current;
+        Node toDel,toDelPrev;
 
-        if (head == null){
+        if (head == null)
+        {
             System.out.println("List is empty");
             return false;
-        }else {
-            if (head != tail){
-                temp = head;
-                current = null;
+        }
+        else
+        {
+            if (head != tail)
+            {
+                toDel = head;
+                toDelPrev = null;
 
-                for (int i = 0; i < index;i++){
-                    current = temp;
-                    temp = temp.next;
+                //поиск ноды по ид
+                for (int i = 0; i < index;i++)
+                {
+                    toDelPrev = toDel;
+                    toDel = toDel.next;
                 }
-                if (current != null){
-                    current.next = temp.next;
-                    temp = null;
-                }else {
-                    head = tail = temp.next;
-                    temp = null;
+
+
+                if (toDelPrev != null)
+                {
+                    toDelPrev.next = toDel.next;
+                    toDel = null;
                 }
-            }else {
+                //Попали в голову
+                else
+                {
+                    head = toDel.next;
+                    toDel = null;
+                }
+            }
+            else
+            {
                 head = tail = null;
             }
         }
