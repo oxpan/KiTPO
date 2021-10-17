@@ -69,9 +69,5 @@ public class Main {
             list.delete(0);
         }
 
-
-
-
-
     }
 }
