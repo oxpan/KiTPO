@@ -1,5 +1,7 @@
 package git.group.List;
 
+
+//Saive template list
 public class TList<T>{
     private class Node<T>{
         public  Node<T> next;// указатель на следующий элемент
