@@ -7,6 +7,7 @@ import git.group.List.TList;
 
 import java.io.InputStreamReader;
 import java.io.StringBufferInputStream;
+import java.util.Arrays;
 
 
 public class Main {
@@ -62,12 +63,45 @@ public class Main {
         Builder builder = new BuilderString();
         TList list = new TList(builder);
 
-        for (int i =0; i < 3; i++){
+        for (int i =0; i < 4; i++){
             list.pushFront(builder.createObject());
         }
-        for (int i =0; i < 3; i++){
-            list.delete(0);
-        }
 
+        //list.swap(0,1);
+        //list.swap(0,3);
+        //list.swap(2,3);
+
+
+        //list.swap(0,1);
+
+
+        //Object obj = list.find(2);
+
+        //obj = builder.parseObject(new String("q"));
+        //list.add(obj,5);
+
+        //int id = list.find(obj);
+
+        //list.delete(5);
+
+
+        //before
+        System.out.println("BEFORE");
+        for (int i=0;i<4;i++) System.out.println(list.find(i));
+
+        list.sort();
+
+        //after
+        System.out.println("AFTER");
+        for (int i=0;i<4;i++) System.out.println(list.find(i));
+
+
+//        for (int i =0; i < 8; i++)
+//        {
+//            list.delete(0);
+//        }
     }
+
+
+
 }

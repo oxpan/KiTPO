@@ -121,12 +121,11 @@ public class TList{
                 toDelPrev = null;
 
                 //поиск ноды по ид
-                for (int i = 0; i < index;i++)
+                for (int i = 0; i < index; i++)
                 {
                     toDelPrev = toDel;
                     toDel = toDel.next;
                 }
-
 
                 if (toDelPrev != null)
                 {
@@ -227,13 +226,100 @@ public class TList{
     }
 
 
-    public boolean sort(){//sorting
-        if(head == null)
-            return  false;
+    public boolean sort()
+    {
+        quickSort(0,size-1);
+
+        return true;
+    }
+
+    private Node findNode(int id)
+    {
+        //Ищем ноду б
+        Node res = head;
+        for (int i = 0; i < id; i++){
+            res = res.next;
+        }
+        return res;
+    }
+
+    public void swap (int q, int z)
+    {
+        //q должно быть обязательно меньше z
+        //Если это условие нарушается, то делаем обмен индексов
+        if (q>z)
+        {
+            int buf = q;
+            q=z;
+            z=buf;
+        }
 
 
-        return false;
-        ///netupaya sort
+        //Ищем ноду q
+        Node nq = findNode(q);
+
+        //Ищем ноду z
+        Node nz = findNode(z);
+
+        Node buf;
+
+        Node nqPrev = findNode(q-1);
+        Node nzPrev = findNode(z-1);
+
+        if(z-q ==1) buf = nq;
+        else  buf = nq.next;
+
+        nq.next = nz.next;
+        nz.next = buf;
+
+        if(q>0)
+        {
+            nqPrev.next=nz;
+        }
+
+        if(z-q >1) nzPrev.next = nq;
+
+        if(q==0) head = nz;
+    }
+
+    private void quickSort(int low, int high) {
+        if (size == 0)
+            return;//завершить выполнение, если длина массива равна 0
+
+        if (low >= high)
+            return;//завершить выполнение если уже нечего делить
+
+        // выбрать опорный элемент
+        int middle = low + (high - low) / 2;
+        Object opora = find(middle);
+
+        // разделить на подмассивы, который больше и меньше опорного элемента
+        int i = low, j = high;
+        while (i <= j) {
+            while (comparator.compare(find(i),opora)==-1) {
+                i++;
+            }
+
+            while (comparator.compare(find(j),opora)==1) {
+                j--;
+            }
+
+            if (i <= j)
+            {
+                //меняем местами
+                swap(i,j);
+
+                i++;
+                j--;
+            }
+        }
+
+        // вызов рекурсии для сортировки левой и правой части
+        if (low < j)
+            quickSort(low, j);
+
+        if (high > i)
+            quickSort(i, high);
     }
 
 }
