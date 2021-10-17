@@ -1,6 +1,9 @@
 package git.group.List;
 
 
+import git.group.Builder.Builder;
+import git.group.Comparator.Comparator;
+
 //Saive template list
 public class TList{
     private class Node{
@@ -21,12 +24,16 @@ public class TList{
     private Node tail;// //endlist
     private int size;//
     private int size_limit;//
+    Builder builder;
+    Comparator comparator;
 
 
 
 
-    public TList(/*Bilder bilder*/)
+    public TList(Builder builder)
     {
+        this.builder = builder;
+        this.comparator = builder.getComparator();
         this.head = null;
         this.tail = null;
         this.size = 0;
@@ -46,6 +53,7 @@ public class TList{
                 head = nNode;
                 head.next = temp;
             }
+            size++;
             return true;
         }
         return  false;
@@ -95,8 +103,8 @@ public class TList{
     }
 
     public boolean delete(int index){
-        if (size < 0)
-            return false;
+        //if (size < 0)
+//            return false;
 
         Node temp,current;
 
@@ -203,6 +211,7 @@ public class TList{
         this.size_limit = limit;
         return true;
     }
+
 
     public boolean sort(){//sorting
         if(head == null)

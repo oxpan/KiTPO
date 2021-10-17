@@ -59,5 +59,19 @@ public class Main {
 //        InputStreamReader i = new InputStreamReader(stringBufferInputStream);
 //
 //        b.readObject(i);
+        Builder builder = new BuilderString();
+        TList list = new TList(builder);
+
+        for (int i =0; i < 3; i++){
+            list.pushFront(builder.createObject());
+        }
+        for (int i =0; i < 3; i++){
+            list.delete(0);
+        }
+
+
+
+
+
     }
 }
