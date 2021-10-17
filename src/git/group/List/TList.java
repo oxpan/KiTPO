@@ -1,26 +1,59 @@
 package git.group.List;
 
-public class TList<T>{
-    private class Node<T>{
-        public  Node<T> next;// указатель на следующий элемент
-        public T data;
+
+//Saive template list
+public class TList{
+    private class Node{
+        public  Node next;// указатель на следующий элемент
+        public Object data;
 
         public Node(){}
-        public Node(T data){
+        public Node(Object data){
             this.data = data;
             this.next = null;
 
         }
     }
 
-    public Node<T> head = null;//nachalo
-    public Node<T> tail = null;//endlist
-    public int size = 0;
-    public int size_limit = 20;
 
-    public boolean addNode(T data) {//vstavka v end
+
+    private Node head;// //nachalo
+    private Node tail;// //endlist
+    private int size;//
+    private int size_limit;//
+
+
+
+
+    public TList(/*Bilder bilder*/)
+    {
+        this.head = null;
+        this.tail = null;
+        this.size = 0;
+        this.size_limit = 20;
+    }
+
+    public boolean pushFront(Object obj){// vstavka v front
+        if(size < size_limit){
+            Node nNode = new Node(obj);
+
+            if(head == null){
+                head = nNode;
+                tail = nNode;
+            }
+            else{
+                Node temp = head;
+                head = nNode;
+                head.next = temp;
+            }
+            return true;
+        }
+        return  false;
+    }
+
+    public boolean pushEnd(Object data) {//vstavka v end
         if (size < size_limit) {
-            Node<T> nNode = new Node<>(data);
+            Node nNode = new Node(data);
 
             if (head == null) {
                 head = nNode;
@@ -35,15 +68,15 @@ public class TList<T>{
         return false;
     }
 
-    public boolean addNodeIndex(T data, int index){//dobav po index
+    public boolean add(Object data, int index){//dobav po index
         if (size < size_limit) {
-            Node<T> nNode = new Node<>(data);
+            Node nNode = new Node(data);
 
             if (head == null) {
                 head = nNode;
                 tail = nNode;
             } else {
-                Node<T> temp, current;
+                Node temp, current;
                 temp = head;
                 current = null;
 
@@ -61,11 +94,11 @@ public class TList<T>{
         return false;
     }
 
-    public boolean dropNodeIndex(int index){
-//        if (size <= 0)
-//            return false;
+    public boolean delete(int index){
+        if (size < 0)
+            return false;
 
-        Node<T> temp,current;
+        Node temp,current;
 
         if (head == null){
             System.out.println("List is empty");
@@ -94,9 +127,9 @@ public class TList<T>{
         return true;
     }
 
-    public T searchNodeIndex(int index){
-        T dataNode;
-        Node<T> current = head;
+    public Object find(int index){
+        Object dataNode;
+        Node current = head;
 
         if (index == 0){
             dataNode = current.data;
@@ -111,9 +144,28 @@ public class TList<T>{
 
         return dataNode;
     }
+    public int find(Object obj){
+        Node current = head;
+        int index = 0;
+
+        if (head == null){
+            //throw exception("No List");
+            return -15;
+        }
+        else {
+            while (current != null){
+                if(current.data == obj){
+                    return index;
+                }
+                index++;
+                current = current.next;
+            }
+        }
+        return  -1;
+    }
 
     public boolean showList(){
-        Node<T> current = head;
+        Node current = head;
 
         if (head == null){
             System.out.println("List is empty");
@@ -124,13 +176,13 @@ public class TList<T>{
             System.out.print(current.data + " ");
             current = current.next;
         }
-        System.out.printf("");
+        System.out.print("");
         return true;
     }
 
-    public int countNodes(){//kolichestvo yzlov
+    private int countNodes(){//kolichestvo yzlov
         int count = 0;
-        Node<T> current = head;
+        Node current = head;
 
         while (current != null){
             count++;
@@ -151,4 +203,14 @@ public class TList<T>{
         this.size_limit = limit;
         return true;
     }
+
+    public boolean sort(){//sorting
+        if(head == null)
+            return  false;
+
+
+        return false;
+        ///netupaya sort
+    }
+
 }
