@@ -1,7 +1,12 @@
 package git.group;
+import git.group.Builder.Builder;
+import git.group.Builder.BuilderString;
 import git.group.Comparator.Comparator;
 import git.group.Comparator.ComparatorString;
 import git.group.List.TList;
+
+import java.io.InputStreamReader;
+import java.io.StringBufferInputStream;
 
 
 public class Main {
@@ -35,13 +40,24 @@ public class Main {
 //        System.out.println("dataind: " + intlist.searchNodeIndex(3));
 
 
-        Comparator comparator = new ComparatorString();
-
-        String str1 = "abrft";
-        String str2 = "cdeqw";
-
-        int res = comparator.compare(str1,str2);
-
-        System.out.println(res);
+//        Comparator comparator = new ComparatorString();
+//
+//        String str1 = "abrft";
+//        String str2 = "cdeqw";
+//
+//        int res = comparator.compare(str1,str2);
+//
+//        System.out.println(res);
+//
+//
+//        Builder b = new BuilderString();
+//
+//        Object obj = b.createObject();
+//
+//        String str = "test";
+//        StringBufferInputStream stringBufferInputStream = new StringBufferInputStream(str);
+//        InputStreamReader i = new InputStreamReader(stringBufferInputStream);
+//
+//        b.readObject(i);
     }
 }
