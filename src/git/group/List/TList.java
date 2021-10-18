@@ -24,8 +24,8 @@ public class TList{
     private Node tail;// //endlist
     private int size;//
     private int size_limit;//
-    Builder builder;
-    Comparator comparator;
+    private Builder builder;
+    private Comparator comparator;
 
 
 
@@ -222,6 +222,16 @@ public class TList{
         this.size_limit = limit;
         return true;
     }
+    public boolean setBuilder(Builder builder)
+    {
+        if(size == 0)
+        {
+            this.builder = builder;
+            this.comparator = builder.getComparator();
+            return true;
+        }
+        return false;
+    };
 
 
     public boolean sort()
@@ -240,7 +250,7 @@ public class TList{
         return res;
     }
 
-    public void swap (int q, int z)
+    private void swap (int q, int z)
     {
         //q должно быть обязательно меньше z
         //Если это условие нарушается, то делаем обмен индексов
@@ -306,4 +316,15 @@ public class TList{
         if (high > i) quickSort(i, high);
     }
 
+
+    public void forEach(DoIt func)
+    {
+        Node cur = head;
+
+        for(int i=0;i<size;i++)
+        {
+            func.doIt(cur.data);
+            cur = cur.next;
+        }
+    }
 }
