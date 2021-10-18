@@ -316,4 +316,15 @@ public class TList{
         if (high > i) quickSort(i, high);
     }
 
+
+    public void forEach(DoIt func)
+    {
+        Node cur = head;
+
+        for(int i=0;i<size;i++)
+        {
+            func.doIt(cur.data);
+            cur = cur.next;
+        }
+    }
 }

@@ -33,13 +33,13 @@ public class Main {
                 //<sort>
                     //before
                         System.out.println("BEFORE");
-                        for (int i=0;i<8;i++) System.out.println(list.find(i));
+                        list.forEach((o)->{System.out.println(o);});
 
                     list.sort();
 
                     //after
                         System.out.println("AFTER");
-                        for (int i=0;i<size;i++) System.out.println(list.find(i));
+                        list.forEach((o)->{System.out.println(o);});
                 //</sort>
 
 
@@ -71,16 +71,18 @@ public class Main {
             for (int i =0; i < size; i++)
                 list.pushFront(builder1.createObject());
 
+
+
                 //<sort>
                     //before
                         System.out.println("BEFORE");
-                        for (int i=0;i<8;i++) System.out.println(list.find(i));
+                        list.forEach((o)->{System.out.println(o);});
 
                     list.sort();
 
                     //after
                         System.out.println("AFTER");
-                        for (int i=0;i<size;i++) System.out.println(list.find(i));
+                        list.forEach((o)->{System.out.println(o);});
                 //</sort>
 
             for (int i =0; i < size; i++)
