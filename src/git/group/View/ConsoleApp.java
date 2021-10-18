@@ -101,7 +101,10 @@ public class ConsoleApp {
                     drawList();
                     break;
                 case 8:
-                    testDriweStringList();
+                    System.out.println("Введите кол-во лементов");
+                    int elem = in.nextInt();
+
+                    testDriweStringList(elem);
                     break;
                 case 9:
                     list.clear();
@@ -138,17 +141,39 @@ public class ConsoleApp {
             System.out.println(name);
         });
     }
-
-
-    private void testDriweStringList()
+    private void drawList(TList otherlist)
     {
-//        builder = new BuilderString();
+        otherlist.forEach((name)->{
+            System.out.println(name);
+        });
+    }
+
+
+    private void testDriweStringList(int maxElement)
+    {
+
         TList testlist = new TList(builder);
 
 
-//        vasi ahuennii realizachii
-        for (int i = 0; i < 30; i++)
+
+        for (int i = 0; i < maxElement; i++)
             testlist.pushEnd(builder.createObject());
+        System.out.println("\n\nСгенерированый список");
+        drawList(testlist);
+
+        System.out.println("\n\nПоиск каждого четвертого елемента");
+        for (int i = 0; i < maxElement; i = i + 4)
+        {
+            System.out.println(testlist.find(i));
+        }
+
+        System.out.println("\n\nПроиизошла сортировка");
+        testlist.sort();
+        drawList(testlist);
+
+        testlist.clear();
+
+        System.out.println("Список удален");
 
     }
 

@@ -37,7 +37,7 @@ public class TList{
         this.head = null;
         this.tail = null;
         this.size = 0;
-        this.size_limit = 20;
+        this.size_limit = 200;
     }
 
     public boolean clear()
