@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 
 public class BuilderInteger implements Builder
 {
+    public static final String typename = new String("Integer");
+
     private final int min = 0;
     private final int max = 100;
 

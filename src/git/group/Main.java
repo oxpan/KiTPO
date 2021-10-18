@@ -9,18 +9,21 @@ import git.group.View.ConsoleApp;
 import java.io.InputStreamReader;
 import java.io.StringBufferInputStream;
 import java.util.Arrays;
+import java.util.Scanner;
 
 
 public class Main {
 
     public static void main(String[] args)
     {
-
+        Scanner sc = new Scanner(System.in);
+        boolean flag = false;
         ConsoleApp consoleApp = new ConsoleApp();
-
+        while (flag == false) {
+            System.out.println("Введите тип списка");
+            flag = consoleApp.toBuilder(sc.nextLine());
+        }
         consoleApp.run();
-
-
 
 //        int size = 8;
 //        Builder builder = new BuilderString();

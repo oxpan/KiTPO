@@ -5,12 +5,17 @@ import git.group.Comparator.ComparatorString;
 
 import java.io.InputStreamReader;
 
+
+
 public class BuilderString implements Builder
 {
+    public static final String typename = new String("String");
+
     private final int maxLength = 100;
     private final int minCode = 97;
     private final int maxCode = 122;
     private final int diap = maxCode-minCode;
+
 
 
     @Override

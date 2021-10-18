@@ -40,6 +40,18 @@ public class TList{
         this.size_limit = 20;
     }
 
+    public boolean clear()
+    {
+        if (head == null)
+            return false;
+
+        while (head != null)
+        {
+            delete(0);
+        }
+        return true;
+    }
+
     public boolean pushFront(Object obj){// vstavka v front
         if(size < size_limit){
             Node nNode = new Node(obj);
@@ -234,6 +246,7 @@ public class TList{
     };
 
 
+
     public boolean sort()
     {
         quickSort(0,size-1);
@@ -319,6 +332,8 @@ public class TList{
 
     public void forEach(DoIt func)
     {
+        if (head == null)
+            return;
         Node cur = head;
 
         for(int i=0;i<size;i++)
