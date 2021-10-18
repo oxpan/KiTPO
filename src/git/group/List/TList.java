@@ -104,9 +104,9 @@ public class TList{
 
     public boolean delete(int index)
     {
-        if (size < 0) return false;
+        if (size < 0 || index<0) return false;
 
-        Node toDel,toDelPrev;
+        Node toDel,toDelPrev = null;
 
         if (head == null)
         {
@@ -117,15 +117,13 @@ public class TList{
         {
             if (head != tail)
             {
-                toDel = head;
-                toDelPrev = null;
-
-                //поиск ноды по ид
-                for (int i = 0; i < index; i++)
+                //Поиск ноды и её предщественника
+                if(index>0)
                 {
-                    toDelPrev = toDel;
-                    toDel = toDel.next;
+                    toDelPrev = findNode(index-1);
+                    toDel = toDelPrev.next;
                 }
+                else toDel = head;
 
                 if (toDelPrev != null)
                 {
@@ -271,7 +269,9 @@ public class TList{
         nq.next = nz.next;
         nz.next = buf;
         if(z-q >1) nzPrev.next = nq;
+        //Если переставляли первый или последний элементы
         if(q==0) head = nz;
+        if(z==size-1) tail = nq;
     }
 
     private void quickSort(int low, int high) {
