@@ -229,7 +229,6 @@ public class TList{
     public boolean sort()
     {
         quickSort(0,size-1);
-
         return true;
     }
 
@@ -247,47 +246,40 @@ public class TList{
     {
         //q должно быть обязательно меньше z
         //Если это условие нарушается, то делаем обмен индексов
-        if (q>z)
+        if (q==z) return;
+        else if (q>z)
         {
             int buf = q;
             q=z;
             z=buf;
         }
-
-
-        //Ищем ноду q
-        Node nq = findNode(q);
-
+        Node nqPrev, nq;
         //Ищем ноду z
-        Node nz = findNode(z);
-
+            Node nzPrev = findNode(z-1);
+            Node nz = nzPrev.next;
+        //Ищем ноду q
+            if(q>0)
+            {
+                nqPrev = findNode(q-1);
+                nq = nqPrev.next;
+                nqPrev.next=nz;
+            }
+            else nq = findNode(q);
         Node buf;
-
-        Node nqPrev = findNode(q-1);
-        Node nzPrev = findNode(z-1);
-
         if(z-q ==1) buf = nq;
         else  buf = nq.next;
-
         nq.next = nz.next;
         nz.next = buf;
-
-        if(q>0)
-        {
-            nqPrev.next=nz;
-        }
-
         if(z-q >1) nzPrev.next = nq;
-
         if(q==0) head = nz;
     }
 
     private void quickSort(int low, int high) {
-        if (size == 0)
-            return;//завершить выполнение, если длина массива равна 0
+        //завершить выполнение, если длина массива равна 0
+        if (size == 0)  return;
 
-        if (low >= high)
-            return;//завершить выполнение если уже нечего делить
+        //завершить выполнение если уже нечего делить
+        if (low >= high) return;
 
         // выбрать опорный элемент
         int middle = low + (high - low) / 2;
@@ -295,31 +287,23 @@ public class TList{
 
         // разделить на подмассивы, который больше и меньше опорного элемента
         int i = low, j = high;
-        while (i <= j) {
-            while (comparator.compare(find(i),opora)==-1) {
-                i++;
-            }
+        while (i <= j)
+        {
+            while (comparator.compare(find(i),opora)==-1) i++;
 
-            while (comparator.compare(find(j),opora)==1) {
-                j--;
-            }
+            while (comparator.compare(find(j),opora)==1) j--;
 
             if (i <= j)
             {
                 //меняем местами
                 swap(i,j);
-
                 i++;
                 j--;
             }
         }
-
         // вызов рекурсии для сортировки левой и правой части
-        if (low < j)
-            quickSort(low, j);
-
-        if (high > i)
-            quickSort(i, high);
+        if (low < j) quickSort(low, j);
+        if (high > i) quickSort(i, high);
     }
 
 }
