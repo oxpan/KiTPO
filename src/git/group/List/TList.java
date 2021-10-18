@@ -240,7 +240,7 @@ public class TList{
         return res;
     }
 
-    public void swap (int q, int z)
+    private void swap (int q, int z)
     {
         //q должно быть обязательно меньше z
         //Если это условие нарушается, то делаем обмен индексов
