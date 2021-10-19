@@ -44,6 +44,7 @@ public class ConsoleApp {
             builder = settingBuilder(name);
         }catch (Exception e)
         {
+            e.printStackTrace();
             return false;
         }
 
@@ -189,7 +190,7 @@ public class ConsoleApp {
                     }
                     catch (Exception e)
                     {
-                        System.out.println(e.getCause());
+                        e.printStackTrace();
                     }
                     break;
 
@@ -240,6 +241,7 @@ public class ConsoleApp {
             }
         }
 
+        in.close();
     }
 
     private void drawList()
