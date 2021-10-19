@@ -10,7 +10,8 @@ import java.util.Scanner;
 
 
 public class ConsoleApp {
-    Scanner in = new Scanner(System.in);
+    private Scanner in = new Scanner(System.in);
+    private final String os = System.getProperty("os.name");
 
     private Builder builder;
     private TList list;
@@ -19,6 +20,17 @@ public class ConsoleApp {
     private int switch_menu;
     private int tmp_index;
 
+    private void clr()
+    {
+        try
+        {
+            if (os.contains("Windows"))
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            else
+                Runtime.getRuntime().exec("clear");
+        }
+        catch (Exception e){e.printStackTrace();}
+    }
 
     public ConsoleApp()
     {
@@ -70,63 +82,97 @@ public class ConsoleApp {
             ConsoleMenu();
             System.out.print(">>");
             switch_menu = in.nextInt();
+            in.nextLine();
             switch (switch_menu) {
                 case 1:
                     System.out.println("Введите данные");
                     System.out.print(">>");
                     list.pushFront(builder.parseObject(in.next()));
+
+                    clr();
                     break;
                 case 2:
                     System.out.println("Введите данные");
                     System.out.print(">>");
                     list.pushEnd(builder.parseObject(in.next()));
+
+                    clr();
                     break;
                 case 3:
                     System.out.println("Введите индекс элемента");
                     System.out.print(">>");
                     tmp_index = in.nextInt();
+                    in.nextLine();
                     System.out.println("Введите данные");
                     System.out.print(">>");
                     list.add(builder.parseObject(in.next()),tmp_index);
+
+                    clr();
                     break;
                 case 4:
                     list.pushFront(builder.createObject());
+
+                    clr();
                     break;
                 case 5:
                     list.pushEnd(builder.createObject());
+
+                    clr();
                     break;
                 case 6:
                     System.out.println("Введите индекс элемента");
                     System.out.print(">>");
                     tmp_index = in.nextInt();
+                    in.nextLine();
                     list.add(builder.createObject(),tmp_index);
+
+                    clr();
                     break;
                 case 7:
-                    System.out.println("Введите индек для удаления");
+                    System.out.println("Введите индекс");
                     System.out.print(">>");
                     tmp_index = in.nextInt();
+                    in.nextLine();
                     list.delete(tmp_index);
+
+                    clr();
                     break;
                 case 8:
-                    System.out.println("Введите индек для поиска элемента");
+                    System.out.println("Введите индекс");
                     System.out.print(">>");
                     tmp_index = in.nextInt();
+                    in.nextLine();
                     System.out.println("element: "+ list.find(tmp_index));
+
+                    in.nextLine();
+                    clr();
                     break;
                 case 9:
                     list.sort();
+
+                    clr();
                     break;
                 case 10:
                     drawList();
+
+
+                    in.nextLine();
+                    clr();
                     break;
                 case 11:
                     System.out.println("Введите кол-во лементов");
                     int elem = in.nextInt();
+                    in.nextLine();
 
                     testDriweStringList(elem);
+                    in.nextLine();
+                    clr();
+
                     break;
                 case 12:
                     list.clear();
+
+                    clr();
                     break;
                 case 13:
                     System.out.println("Введите тип списка ");
@@ -138,7 +184,9 @@ public class ConsoleApp {
                         {
                             System.out.println("Список не пустой. Очистите его перед сменой типа.");
                             builder = old;
+                            in.nextLine();
                         }
+                        clr();
                     }
                     catch (Exception e)
                     {
@@ -149,21 +197,31 @@ public class ConsoleApp {
                 case 14:
                     try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("list.bin")))
                     {
-
                         out.writeObject(list);
                         System.out.println("Успешная запись");
+
+                        in.nextLine();
+                        clr();
                     }
-                    catch(Exception e) {System.out.println("Ошибка записи");}
+                    catch(Exception e)
+                    {
+                        System.out.println("Ошибка записи");
+                        in.nextLine();
+                        clr();
+                    }
 
                     break;
 
                 case 15:
-                    try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("list.bin")))
+                    try (ObjectInputStream i = new ObjectInputStream(new FileInputStream("list.bin")))
                     {
-                        TList loaded = (TList) in.readObject();
+                        TList loaded = (TList) i.readObject();
                         builder = settingBuilder(loaded.getBuilder().getName());
                         list = loaded;
                         System.out.println("Успешное чтение");
+
+                        in.nextLine();
+                        clr();
                     }
                     catch(Exception e) {e.printStackTrace(); System.out.println("Ошибка чтения");}
                     break;
@@ -171,9 +229,14 @@ public class ConsoleApp {
                 case 0:
                     flag_menu = false;
                     System.out.println("Выход");
+
+                    clr();
                     break;
                 default:
                     System.out.println("ochepyatka");
+
+                    in.nextLine();
+                    clr();
                     break;
             }
         }
