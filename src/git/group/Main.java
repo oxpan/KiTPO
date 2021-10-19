@@ -24,7 +24,7 @@ public class Main {
             flag = consoleApp.toBuilder(sc.nextLine());
         }
         consoleApp.run();
-
+        sc.close();
 //        int size = 8;
 //        Builder builder = new BuilderString();
 //        TList list = new TList(builder);
