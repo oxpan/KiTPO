@@ -4,10 +4,10 @@ import git.group.Comparator.Comparator;
 import git.group.Comparator.ComparatorString;
 
 import java.io.InputStreamReader;
+import java.io.Serializable;
 
 
-
-public class BuilderString implements Builder
+public class BuilderString implements Builder, Serializable
 {
     public static final String typename = new String("String");
 
@@ -60,5 +60,10 @@ public class BuilderString implements Builder
     {
         Comparator comparator = new ComparatorString();
         return comparator;
+    }
+
+    @Override
+    public String getName() {
+        return typename;
     }
 }

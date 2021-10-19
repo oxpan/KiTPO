@@ -1,9 +1,10 @@
 package git.group.Comparator;
 
+import java.io.Serializable;
 import java.lang.reflect.*;
 
 
-public class ComparatorString implements Comparator
+public class ComparatorString implements Comparator, Serializable
 {
     @Override
     public int compare(Object o1, Object o2)

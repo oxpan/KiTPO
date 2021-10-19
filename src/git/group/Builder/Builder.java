@@ -10,4 +10,5 @@ public interface Builder
     Object readObject(InputStreamReader in);
     Object parseObject(String str);
     Comparator getComparator();
+    String getName();
 }

@@ -4,8 +4,9 @@ import git.group.Comparator.Comparator;
 import git.group.Comparator.ComparatorInteger;
 
 import java.io.InputStreamReader;
+import java.io.Serializable;
 
-public class BuilderInteger implements Builder
+public class BuilderInteger implements Builder, Serializable
 {
     public static final String typename = new String("Integer");
 
@@ -47,5 +48,10 @@ public class BuilderInteger implements Builder
     public Comparator getComparator() {
         Comparator comparator = new ComparatorInteger();
         return comparator;
+    }
+
+    @Override
+    public String getName() {
+        return typename;
     }
 }

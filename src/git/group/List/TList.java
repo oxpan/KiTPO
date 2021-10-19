@@ -1,34 +1,31 @@
 package git.group.List;
-
-
 import git.group.Builder.Builder;
 import git.group.Comparator.Comparator;
 
-//Saive template list
-public class TList{
-    private class Node{
-        public  Node next;// указатель на следующий элемент
+import java.io.Serializable;
+
+
+public class TList implements Serializable
+{
+    private class Node implements Serializable
+    {
+        public  Node next;
         public Object data;
 
         public Node(){}
-        public Node(Object data){
+        public Node(Object data)
+        {
             this.data = data;
             this.next = null;
-
         }
     }
 
-
-
-    private Node head;// //nachalo
-    private Node tail;// //endlist
-    private int size;//
-    private int size_limit;//
+    private Node head;
+    private Node tail;
+    private int size;
+    private int size_limit;
     private Builder builder;
     private Comparator comparator;
-
-
-
 
     public TList(Builder builder)
     {
@@ -45,10 +42,8 @@ public class TList{
         if (head == null)
             return false;
 
-        while (head != null)
-        {
-            delete(0);
-        }
+        while (head != null) delete(0);
+
         return true;
     }
 
@@ -56,11 +51,13 @@ public class TList{
         if(size < size_limit){
             Node nNode = new Node(obj);
 
-            if(head == null){
+            if(head == null)
+            {
                 head = nNode;
                 tail = nNode;
             }
-            else{
+            else
+            {
                 Node temp = head;
                 head = nNode;
                 head.next = temp;
@@ -71,16 +68,19 @@ public class TList{
         return  false;
     }
 
-    public boolean pushEnd(Object data) {//vstavka v end
+    public boolean pushEnd(Object data)
+    {
         if (size < size_limit) {
             Node nNode = new Node(data);
 
             if (head == null) {
                 head = nNode;
                 tail = nNode;
-            } else {
-                tail.next = nNode;//sleduuwii na tekuwii
-                tail = nNode;//tekuwii
+            }
+            else
+            {
+                tail.next = nNode;
+                tail = nNode;
             }
             size++;
             return true;
@@ -88,14 +88,19 @@ public class TList{
         return false;
     }
 
-    public boolean add(Object data, int index){//dobav po index
-        if (size < size_limit) {
+    public boolean add(Object data, int index)
+    {
+        if (size < size_limit)
+        {
             Node nNode = new Node(data);
 
-            if (head == null) {
+            if (head == null)
+            {
                 head = nNode;
                 tail = nNode;
-            } else {
+            }
+            else
+            {
                 Node temp, current;
                 temp = head;
                 current = null;
@@ -158,32 +163,31 @@ public class TList{
         return true;
     }
 
-    public Object find(int index){
+    public Object find(int index)
+    {
         Object dataNode;
         Node current = head;
 
-        if (index == 0){
+        if (index == 0)
+        {
             dataNode = current.data;
             return dataNode;
         }
 
-        for (int i = 0; i < index; i++){
-            current = current.next;
-        }
-
+        for (int i = 0; i < index; i++) current = current.next;
         dataNode = current.data;
-
         return dataNode;
     }
-    public int find(Object obj){
+
+    public int find(Object obj)
+    {
         Node current = head;
         int index = 0;
 
-        if (head == null){
-            //throw exception("No List");
-            return -15;
-        }
-        else {
+        if (head == null)
+            return -1;
+        else
+        {
             while (current != null){
                 if(current.data == obj){
                     return index;
@@ -195,45 +199,18 @@ public class TList{
         return  -1;
     }
 
-    public boolean showList(){
-        Node current = head;
-
-        if (head == null){
-            System.out.println("List is empty");
-            return false;
-        }
-
-        while (current != null){
-            System.out.print(current.data + " ");
-            current = current.next;
-        }
-        System.out.print("");
-        return true;
-    }
-
-    private int countNodes(){//kolichestvo yzlov
-        int count = 0;
-        Node current = head;
-
-        while (current != null){
-            count++;
-            current = current.next;
-        }
-        return count;
-    }
-
-    ///zona getersSeters--------
-    public int getSize(){
-        return this.size;
-    }
+    //GET
+    //SET
+    public int getSize(){ return this.size; }
     public int getSize_limit(){return this.size_limit;}
     public boolean setSize_limit(int limit){
         if (limit <= 0 || limit <= size)
             return false;
-
         this.size_limit = limit;
         return true;
     }
+    public Builder getBuilder() { return builder; }
+
     public boolean setBuilder(Builder builder)
     {
         if(size == 0)
@@ -245,7 +222,18 @@ public class TList{
         return false;
     };
 
+    public void forEach(DoIt func)
+    {
+        if (head == null)
+            return;
+        Node cur = head;
 
+        for(int i=0;i<size;i++)
+        {
+            func.doIt(cur.data);
+            cur = cur.next;
+        }
+    }
 
     public boolean sort()
     {
@@ -253,13 +241,40 @@ public class TList{
         return true;
     }
 
+    private void quickSort(int low, int high) {
+
+        if (size == 0)  return;
+
+        if (low >= high) return;
+
+        // Средний элемент
+        int middle = low + (high - low) / 2;
+        Object opora = find(middle);
+
+        // Деление СД на два подмножества
+        int i = low, j = high;
+        while (i <= j)
+        {
+            while (comparator.compare(find(i),opora)==-1) i++;
+
+            while (comparator.compare(find(j),opora)==1) j--;
+
+            if (i <= j)
+            {
+                swap(i,j);
+                i++;
+                j--;
+            }
+        }
+        // Рекурсивная сортировка левого и правого подмножеств
+        if (low < j) quickSort(low, j);
+        if (high > i) quickSort(i, high);
+    }
+
     private Node findNode(int id)
     {
-        //Ищем ноду б
         Node res = head;
-        for (int i = 0; i < id; i++){
-            res = res.next;
-        }
+        for (int i = 0; i < id; i++) res = res.next;
         return res;
     }
 
@@ -276,16 +291,16 @@ public class TList{
         }
         Node nqPrev, nq;
         //Ищем ноду z
-            Node nzPrev = findNode(z-1);
-            Node nz = nzPrev.next;
+        Node nzPrev = findNode(z-1);
+        Node nz = nzPrev.next;
         //Ищем ноду q
-            if(q>0)
-            {
-                nqPrev = findNode(q-1);
-                nq = nqPrev.next;
-                nqPrev.next=nz;
-            }
-            else nq = findNode(q);
+        if(q>0)
+        {
+            nqPrev = findNode(q-1);
+            nq = nqPrev.next;
+            nqPrev.next=nz;
+        }
+        else nq = findNode(q);
         Node buf;
         if(z-q ==1) buf = nq;
         else  buf = nq.next;
@@ -295,51 +310,5 @@ public class TList{
         //Если переставляли первый или последний элементы
         if(q==0) head = nz;
         if(z==size-1) tail = nq;
-    }
-
-    private void quickSort(int low, int high) {
-        //завершить выполнение, если длина массива равна 0
-        if (size == 0)  return;
-
-        //завершить выполнение если уже нечего делить
-        if (low >= high) return;
-
-        // выбрать опорный элемент
-        int middle = low + (high - low) / 2;
-        Object opora = find(middle);
-
-        // разделить на подмассивы, который больше и меньше опорного элемента
-        int i = low, j = high;
-        while (i <= j)
-        {
-            while (comparator.compare(find(i),opora)==-1) i++;
-
-            while (comparator.compare(find(j),opora)==1) j--;
-
-            if (i <= j)
-            {
-                //меняем местами
-                swap(i,j);
-                i++;
-                j--;
-            }
-        }
-        // вызов рекурсии для сортировки левой и правой части
-        if (low < j) quickSort(low, j);
-        if (high > i) quickSort(i, high);
-    }
-
-
-    public void forEach(DoIt func)
-    {
-        if (head == null)
-            return;
-        Node cur = head;
-
-        for(int i=0;i<size;i++)
-        {
-            func.doIt(cur.data);
-            cur = cur.next;
-        }
     }
 }

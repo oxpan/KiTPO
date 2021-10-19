@@ -5,7 +5,7 @@ import git.group.Builder.BuilderInteger;
 import git.group.Builder.BuilderString;
 import git.group.List.TList;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 
@@ -110,19 +110,45 @@ public class ConsoleApp {
                     list.clear();
                     break;
                 case 10:
-//                    String newname;
                     System.out.println("Введите тип списка ");
-//                    newname = in.next();
-                    try {
+                    try
+                    {
+                        Builder old = settingBuilder(builder.getName());
                         builder = settingBuilder(in.next());
-
-                    }catch (Exception e)
+                        if(!list.setBuilder(builder))
+                        {
+                            System.out.println("Список не пустой. Очистите его перед сменой типа.");
+                            builder = old;
+                        }
+                    }
+                    catch (Exception e)
                     {
                         System.out.println(e.getCause());
                     }
-                    list.setBuilder(builder);
+                    break;
+
+                case 11:
+                    try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("list.bin")))
+                    {
+
+                        out.writeObject(list);
+                        System.out.println("Успешная запись");
+                    }
+                    catch(Exception e) {System.out.println("Ошибка записи");}
 
                     break;
+
+                case 12:
+                    try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("list.bin")))
+                    {
+                        TList loaded = (TList) in.readObject();
+                        builder = settingBuilder(loaded.getBuilder().getName());
+                        list = loaded;
+                        System.out.println("Успешное чтение");
+                    }
+                    catch(Exception e) {e.printStackTrace(); System.out.println("Ошибка чтения");}
+                    break;
+
                 case 0:
                     flag_menu = false;
                     System.out.println("Выход");
@@ -181,17 +207,19 @@ public class ConsoleApp {
     private void ConsolMenu()
     {
         System.out.println("----------------------------------");
-        System.out.println("1 - Добавление элемента в начало списка");
-        System.out.println("2 - Добавление элемента в конец списка");
-        System.out.println("3 - Добавление элемента по индексу в список");
-        System.out.println("4 - Удаление элемента по индексу из списка");
-        System.out.println("5 - Поиск элемента по индексу");
+        System.out.println("1 - Добавить в начало списка");
+        System.out.println("2 - Добавить в конец списка");
+        System.out.println("3 - Добавить по индексу в список");
+        System.out.println("4 - Удалить по индексу из списка");
+        System.out.println("5 - Поиск по индексу");
         System.out.println("6 - Сортировка списка (quickSort)");
-        System.out.println("7 - Вывод списока");
+        System.out.println("7 - Вывод списка");
         System.out.println("8 - **testdrive** ");
-        System.out.println("9 - Очистка списка");
+        System.out.println("9 - Очистить список");
         System.out.println("10 - Изменить тип списка");
-        System.out.println("0 - выход из ConsoleView");
+        System.out.println("11 - Записать в файл список");
+        System.out.println("12 - Прочитать из файла список");
+        System.out.println("0 - Выйти");
         System.out.println("----------------------------------");
     }
 
