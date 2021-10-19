@@ -66,50 +66,68 @@ public class ConsoleApp {
     {
         while (flag_menu)
         {
-            ConsolMenu();
+            ConsoleMenu();
             System.out.print(">>");
             switch_menu = in.nextInt();
             switch (switch_menu) {
                 case 1:
-                    list.pushFront(builder.createObject());
+                    System.out.println("Введите данные");
+                    System.out.print(">>");
+                    list.pushFront(builder.parseObject(in.next()));
                     break;
                 case 2:
-                    list.pushEnd(builder.createObject());
+                    System.out.println("Введите данные");
+                    System.out.print(">>");
+                    list.pushEnd(builder.parseObject(in.next()));
                     break;
                 case 3:
-                    System.out.println("Введите индек для добавления");
+                    System.out.println("Введите индекс элемента");
+                    System.out.print(">>");
+                    tmp_index = in.nextInt();
+                    System.out.println("Введите данные");
+                    System.out.print(">>");
+                    list.add(builder.parseObject(in.next()),tmp_index);
+                    break;
+                case 4:
+                    list.pushFront(builder.createObject());
+                    break;
+                case 5:
+                    list.pushEnd(builder.createObject());
+                    break;
+                case 6:
+                    System.out.println("Введите индекс элемента");
                     System.out.print(">>");
                     tmp_index = in.nextInt();
                     list.add(builder.createObject(),tmp_index);
                     break;
-                case 4:
+                case 7:
                     System.out.println("Введите индек для удаления");
                     System.out.print(">>");
                     tmp_index = in.nextInt();
                     list.delete(tmp_index);
                     break;
-                case 5:
+                case 8:
                     System.out.println("Введите индек для поиска элемента");
                     System.out.print(">>");
                     tmp_index = in.nextInt();
                     System.out.println("element: "+ list.find(tmp_index));
                     break;
-                case 6:
+                case 9:
                     list.sort();
                     break;
-                case 7:
+                case 10:
                     drawList();
                     break;
-                case 8:
+                case 11:
                     System.out.println("Введите кол-во лементов");
                     int elem = in.nextInt();
 
                     testDriweStringList(elem);
                     break;
-                case 9:
+                case 12:
                     list.clear();
                     break;
-                case 10:
+                case 13:
                     System.out.println("Введите тип списка ");
                     try
                     {
@@ -127,7 +145,7 @@ public class ConsoleApp {
                     }
                     break;
 
-                case 11:
+                case 14:
                     try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("list.bin")))
                     {
 
@@ -138,7 +156,7 @@ public class ConsoleApp {
 
                     break;
 
-                case 12:
+                case 15:
                     try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("list.bin")))
                     {
                         TList loaded = (TList) in.readObject();
@@ -204,21 +222,24 @@ public class ConsoleApp {
     }
 
 
-    private void ConsolMenu()
+    private void ConsoleMenu()
     {
         System.out.println("----------------------------------");
         System.out.println("1 - Добавить в начало списка");
         System.out.println("2 - Добавить в конец списка");
         System.out.println("3 - Добавить по индексу в список");
-        System.out.println("4 - Удалить по индексу из списка");
-        System.out.println("5 - Поиск по индексу");
-        System.out.println("6 - Сортировка списка (quickSort)");
-        System.out.println("7 - Вывод списка");
-        System.out.println("8 - **testdrive** ");
-        System.out.println("9 - Очистить список");
-        System.out.println("10 - Изменить тип списка");
-        System.out.println("11 - Записать в файл список");
-        System.out.println("12 - Прочитать из файла список");
+        System.out.println("4 - Добавить в начало списка (случ.)");
+        System.out.println("5 - Добавить в конец списка (случ.)");
+        System.out.println("6 - Добавить по индексу в список (случ.)");
+        System.out.println("7 - Удалить по индексу из списка");
+        System.out.println("8 - Поиск по индексу");
+        System.out.println("9 - Сортировка списка (quickSort)");
+        System.out.println("10 - Вывод списка");
+        System.out.println("11 - **testdrive** ");
+        System.out.println("12 - Очистить список");
+        System.out.println("13 - Изменить тип списка");
+        System.out.println("14 - Записать в файл список");
+        System.out.println("15 - Прочитать из файла список");
         System.out.println("0 - Выйти");
         System.out.println("----------------------------------");
     }

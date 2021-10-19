@@ -33,8 +33,8 @@ public class BuilderString implements Builder, Serializable
     }
 
     @Override
-    public Object readObject(InputStreamReader in) {
-        try
+    public Object readObject(InputStreamReader i) {
+        try (InputStreamReader in = i)
         {
             StringBuffer stringBuffer = new StringBuffer();
             int code =0;
@@ -42,6 +42,7 @@ public class BuilderString implements Builder, Serializable
             {
                 stringBuffer.append((char) code);
             }
+
             return stringBuffer.toString();
         }
         catch(Exception e)

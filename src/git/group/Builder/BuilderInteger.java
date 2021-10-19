@@ -21,11 +21,12 @@ public class BuilderInteger implements Builder, Serializable
     }
 
     @Override
-    public Object readObject(InputStreamReader in) {
-        try
+    public Object readObject(InputStreamReader i) {
+        try (InputStreamReader in = i)
         {
             StringBuffer stringBuffer = new StringBuffer();
             int code =0;
+
             while ((code = in.read())!= -1)
             {
                 stringBuffer.append((char) code);
