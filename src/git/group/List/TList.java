@@ -199,8 +199,6 @@ public class TList implements Serializable
         return  -1;
     }
 
-    //GET
-    //SET
     public int getSize(){ return this.size; }
     public int getSize_limit(){return this.size_limit;}
     public boolean setSize_limit(int limit){
