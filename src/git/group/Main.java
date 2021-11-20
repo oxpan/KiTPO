@@ -14,7 +14,6 @@ import java.util.Scanner;
 
 
 public class Main {
-
     public static void main(String[] args)
     {
         Scanner sc = new Scanner(System.in);
@@ -26,37 +25,5 @@ public class Main {
         }
         consoleApp.run();
         sc.close();
-
-//        int size = 8;
-//        Builder builder = new BuilderString();
-//        TList list = new TList(builder);
-//
-//        for (int i =0; i < size; i++)
-//            list.pushFront(builder.createObject());
-//
-//            list.add(builder.parseObject("test"),size / 2);
-//            int res = list.find(builder.parseObject("test"));
-//            list.delete(res);
-//
-//            res = list.find(builder.parseObject("test"));
-//
-//            //<sort>
-//                //before
-//                    System.out.println("BEFORE");
-//                    for (int i=0;i<8;i++) System.out.println(list.find(i));
-//
-//                list.sort();
-//
-//                //after
-//                    System.out.println("AFTER");
-//                    for (int i=0;i<size;i++) System.out.println(list.find(i));
-//            //</sort>
-//
-//
-//        for (int i =0; i < size; i++)
-//            list.delete(0);
     }
-
-
-
 }
