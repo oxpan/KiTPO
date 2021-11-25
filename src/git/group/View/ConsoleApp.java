@@ -39,14 +39,12 @@ public class ConsoleApp {
 
     public boolean toBuilder(String name)
     {
-
         try {builder = settingBuilder(name);}
         catch (Exception e)
         {
             e.printStackTrace();
             return false;
         }
-
         list = new TList(builder);
         return true;
     }
@@ -77,14 +75,12 @@ public class ConsoleApp {
                     System.out.println("Введите данные");
                     System.out.print(">>");
                     list.pushFront(builder.parseObject(in.next()));
-
                     clr();
                     break;
                 case 2:
                     System.out.println("Введите данные");
                     System.out.print(">>");
                     list.pushEnd(builder.parseObject(in.next()));
-
                     clr();
                     break;
                 case 3:
@@ -95,17 +91,14 @@ public class ConsoleApp {
                     System.out.println("Введите данные");
                     System.out.print(">>");
                     list.add(builder.parseObject(in.next()),tmp_index);
-
                     clr();
                     break;
                 case 4:
                     list.pushFront(builder.createObject());
-
                     clr();
                     break;
                 case 5:
                     list.pushEnd(builder.createObject());
-
                     clr();
                     break;
                 case 6:
@@ -114,7 +107,6 @@ public class ConsoleApp {
                     tmp_index = in.nextInt();
                     in.nextLine();
                     list.add(builder.createObject(),tmp_index);
-
                     clr();
                     break;
                 case 7:
@@ -123,7 +115,6 @@ public class ConsoleApp {
                     tmp_index = in.nextInt();
                     in.nextLine();
                     list.delete(tmp_index);
-
                     clr();
                     break;
                 case 8:
@@ -132,13 +123,11 @@ public class ConsoleApp {
                     tmp_index = in.nextInt();
                     in.nextLine();
                     System.out.println("element: "+ list.find(tmp_index));
-
                     in.nextLine();
                     clr();
                     break;
                 case 9:
                     list.sort();
-
                     clr();
                     break;
                 case 10:
@@ -158,7 +147,6 @@ public class ConsoleApp {
                     break;
                 case 12:
                     list.clear();
-
                     clr();
                     break;
                 case 13:
@@ -186,7 +174,6 @@ public class ConsoleApp {
                     {
                         out.writeObject(list);
                         System.out.println("Успешная запись");
-
                         in.nextLine();
                         clr();
                     }
@@ -204,22 +191,18 @@ public class ConsoleApp {
                         builder = settingBuilder(loaded.getBuilder().getName());
                         list = loaded;
                         System.out.println("Успешное чтение");
-
                         in.nextLine();
                         clr();
                     }
                     catch(Exception e) {e.printStackTrace(); System.out.println("Ошибка чтения");}
                     break;
-
                 case 0:
                     flag_menu = false;
                     System.out.println("Выход");
-
                     clr();
                     break;
                 default:
                     System.out.println("ochepyatka");
-
                     in.nextLine();
                     clr();
                     break;
@@ -253,7 +236,6 @@ public class ConsoleApp {
         System.out.println("\n\nПоиск каждого четвертого елемента");
         for (int i = 0; i < maxElement; i = i + 4)
             System.out.println(testlist.find(i));
-
         System.out.println("\n\nПроиизошла сортировка");
         testlist.sort();
         drawList(testlist);
