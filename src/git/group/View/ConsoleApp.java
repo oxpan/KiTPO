@@ -40,9 +40,8 @@ public class ConsoleApp {
     public boolean toBuilder(String name)
     {
 
-        try {
-            builder = settingBuilder(name);
-        }catch (Exception e)
+        try {builder = settingBuilder(name);}
+        catch (Exception e)
         {
             e.printStackTrace();
             return false;
@@ -55,24 +54,14 @@ public class ConsoleApp {
     private Builder settingBuilder(String name)throws Exception
     {
         if (name.equals(BuilderString.typename))
-        {
-//            builder = new BuilderString();
             return new BuilderString();
-
-        }else if (name.equals(BuilderInteger.typename))
-        {
-//            builder = new BuilderInteger();
+        else if (name.equals(BuilderInteger.typename))
             return new BuilderInteger();
-        } else
+        else
         {
-//            System.out.println("OSHIBKA: нет такого типа");
             Exception e = new Exception("OSHIBKA: нет такого типа");
             throw e;
-
-//            return false;
         }
-
-
     }
 
     public void run()
@@ -149,11 +138,13 @@ public class ConsoleApp {
                     break;
                 case 9:
                     list.sort();
+
                     clr();
                     break;
                 case 10:
                     drawList();
                     in.nextLine();
+
                     clr();
                     break;
                 case 11:
@@ -161,12 +152,13 @@ public class ConsoleApp {
                     int elem = in.nextInt();
                     in.nextLine();
                     testDriweStringList(elem);
+
                     in.nextLine();
                     clr();
-
                     break;
                 case 12:
                     list.clear();
+
                     clr();
                     break;
                 case 13:
@@ -204,9 +196,7 @@ public class ConsoleApp {
                         in.nextLine();
                         clr();
                     }
-
                     break;
-
                 case 15:
                     try (ObjectInputStream i = new ObjectInputStream(new FileInputStream("list.bin")))
                     {
@@ -235,7 +225,6 @@ public class ConsoleApp {
                     break;
             }
         }
-
         in.close();
     }
 
@@ -252,13 +241,9 @@ public class ConsoleApp {
         });
     }
 
-
     private void testDriweStringList(int maxElement)
     {
-
         TList testlist = new TList(builder);
-
-
 
         for (int i = 0; i < maxElement; i++)
             testlist.pushEnd(builder.createObject());
@@ -267,20 +252,14 @@ public class ConsoleApp {
 
         System.out.println("\n\nПоиск каждого четвертого елемента");
         for (int i = 0; i < maxElement; i = i + 4)
-        {
             System.out.println(testlist.find(i));
-        }
 
         System.out.println("\n\nПроиизошла сортировка");
         testlist.sort();
         drawList(testlist);
-
         testlist.clear();
-
         System.out.println("Список удален");
-
     }
-
 
     private void ConsoleMenu()
     {
@@ -303,6 +282,4 @@ public class ConsoleApp {
         System.out.println("0 - Выйти");
         System.out.println("----------------------------------");
     }
-
-
 }

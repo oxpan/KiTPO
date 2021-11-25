@@ -9,7 +9,7 @@ public class TList implements Serializable
 {
     private class Node implements Serializable
     {
-        public  Node next;
+        public Node next;
         public Object data;
 
         public Node(){}
@@ -79,6 +79,16 @@ public class TList implements Serializable
         }
         size++;
         return true;
+    }
+
+    private void pushEnd(TList toInsert)
+    {
+        if(toInsert!=null)
+        {
+            tail.next=toInsert.head;
+            tail = toInsert.tail;
+            size += toInsert.size;
+        }
     }
 
     public boolean add(Object data, int index)
@@ -188,23 +198,6 @@ public class TList implements Serializable
         return  -1;
     }
 
-    //GET
-    //SET
-    public int getSize(){ return this.size; }
-
-    public Builder getBuilder() { return builder; }
-
-    public boolean setBuilder(Builder builder)
-    {
-        if(size == 0)
-        {
-            this.builder = builder;
-            this.comparator = builder.getComparator();
-            return true;
-        }
-        return false;
-    };
-
     public void forEach(DoIt func)
     {
         if (head == null)
@@ -218,6 +211,11 @@ public class TList implements Serializable
         }
     }
 
+    public void sortOld()
+    {
+        quickSort(0,size-1);
+    }
+
     public boolean sort()
     {
         TList r = quicksort(this);
@@ -226,9 +224,38 @@ public class TList implements Serializable
         return true;
     }
 
-    public void sortOld()
+    private void swap (int q, int z)
     {
-        quickSort(0,size-1);
+        //q должно быть обязательно меньше z
+        //Если это условие нарушается, то делаем обмен индексов
+        if (q==z) return;
+        else if (q>z)
+        {
+            int buf = q;
+            q=z;
+            z=buf;
+        }
+        Node nqPrev, nq;
+        //Ищем ноду z
+        Node nzPrev = findNode(z-1);
+        Node nz = nzPrev.next;
+        //Ищем ноду q
+        if(q>0)
+        {
+            nqPrev = findNode(q-1);
+            nq = nqPrev.next;
+            nqPrev.next=nz;
+        }
+        else nq = findNode(q);
+        Node buf;
+        if(z-q ==1) buf = nq;
+        else  buf = nq.next;
+        nq.next = nz.next;
+        nz.next = buf;
+        if(z-q >1) nzPrev.next = nq;
+        //Если переставляли первый или последний элементы
+        if(q==0) head = nz;
+        if(z==size-1) tail = nq;
     }
 
     private void quickSort(int low, int high) {
@@ -259,16 +286,6 @@ public class TList implements Serializable
         // Рекурсивная сортировка левого и правого подмножеств
         if (low < j) quickSort(low, j);
         if (high > i) quickSort(i, high);
-    }
-
-    private void pushEnd(TList toInsert)
-    {
-        if(toInsert!=null)
-        {
-            tail.next=toInsert.head;
-            tail = toInsert.tail;
-            size += toInsert.size;
-        }
     }
 
     private TList quicksort(TList list)
@@ -318,37 +335,20 @@ public class TList implements Serializable
         return res;
     }
 
-    private void swap (int q, int z)
+    //GET
+    //SET
+    public int getSize(){ return this.size; }
+
+    public Builder getBuilder() { return builder; }
+
+    public boolean setBuilder(Builder builder)
     {
-        //q должно быть обязательно меньше z
-        //Если это условие нарушается, то делаем обмен индексов
-        if (q==z) return;
-        else if (q>z)
+        if(size == 0)
         {
-            int buf = q;
-            q=z;
-            z=buf;
+            this.builder = builder;
+            this.comparator = builder.getComparator();
+            return true;
         }
-        Node nqPrev, nq;
-        //Ищем ноду z
-        Node nzPrev = findNode(z-1);
-        Node nz = nzPrev.next;
-        //Ищем ноду q
-        if(q>0)
-        {
-            nqPrev = findNode(q-1);
-            nq = nqPrev.next;
-            nqPrev.next=nz;
-        }
-        else nq = findNode(q);
-        Node buf;
-        if(z-q ==1) buf = nq;
-        else  buf = nq.next;
-        nq.next = nz.next;
-        nz.next = buf;
-        if(z-q >1) nzPrev.next = nq;
-        //Если переставляли первый или последний элементы
-        if(q==0) head = nz;
-        if(z==size-1) tail = nq;
-    }
+        return false;
+    };
 }
