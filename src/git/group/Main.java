@@ -26,37 +26,54 @@ public class Main {
         }
         consoleApp.run();
         sc.close();
-
-//        int size = 8;
-//        Builder builder = new BuilderString();
-//        TList list = new TList(builder);
-//
-//        for (int i =0; i < size; i++)
-//            list.pushFront(builder.createObject());
-//
-//            list.add(builder.parseObject("test"),size / 2);
-//            int res = list.find(builder.parseObject("test"));
-//            list.delete(res);
-//
-//            res = list.find(builder.parseObject("test"));
-//
-//            //<sort>
-//                //before
-//                    System.out.println("BEFORE");
-//                    for (int i=0;i<8;i++) System.out.println(list.find(i));
-//
-//                list.sort();
-//
-//                //after
-//                    System.out.println("AFTER");
-//                    for (int i=0;i<size;i++) System.out.println(list.find(i));
-//            //</sort>
-//
-//
-//        for (int i =0; i < size; i++)
-//            list.delete(0);
     }
+    private static void testSort()
+    {
+        int n = 150;
+        int min = 100;
+        int max = 20000;
+        int step = (max-min)/100;
 
 
 
+        BuilderInteger builder = new BuilderInteger();
+        TList list1 = new TList(builder);
+        TList list2 = new TList(builder);
+        int[] sizes = new int[n];
+
+        sizes[0] = min;
+        for(int i=1;i<n;i++)
+            sizes[i] = sizes[i-1] + step;
+
+        long[] time_differences = new long[sizes.length];
+        long[] time_optim = new long[sizes.length];
+        for(int i=0;i<sizes.length;i++)
+        {
+            for(int j=0;j<sizes[i];j++)
+            {
+                Object elem =builder.createObject();
+                list1.pushFront(elem);
+                list2.pushFront(elem);
+            }
+            long nonOptimizedSort = System.currentTimeMillis();
+            list1.sortOld();
+            nonOptimizedSort = System.currentTimeMillis() - nonOptimizedSort;
+            long optimizedSort = System.currentTimeMillis();
+            list2.sort();
+            optimizedSort = System.currentTimeMillis() - optimizedSort;
+            time_optim[i] = optimizedSort;
+
+            time_differences[i] = nonOptimizedSort - optimizedSort;
+
+            list1.clear();
+            list2.clear();
+        }
+        System.out.println("Функция разницы во времени между старой и новой сортировками");
+        System.out.println("Ось X: (шт.)");
+        System.out.println(Arrays.toString(sizes));
+        System.out.println("Ось Y: (мс)");
+        System.out.println(Arrays.toString(time_differences));
+        System.out.println("Время работы потимизированной сортировки: (мс)");
+        System.out.println(Arrays.toString(time_optim));
+    }
 }

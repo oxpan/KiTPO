@@ -23,7 +23,6 @@ public class TList implements Serializable
     private Node head;
     private Node tail;
     private int size;
-    private int size_limit;
     private Builder builder;
     private Comparator comparator;
 
@@ -34,7 +33,6 @@ public class TList implements Serializable
         this.head = null;
         this.tail = null;
         this.size = 0;
-        this.size_limit = 200;
     }
 
     public boolean clear()
@@ -48,76 +46,66 @@ public class TList implements Serializable
     }
 
     public boolean pushFront(Object obj){// vstavka v front
-        if(size < size_limit){
-            Node nNode = new Node(obj);
 
-            if(head == null)
-            {
-                head = nNode;
-                tail = nNode;
-            }
-            else
-            {
-                Node temp = head;
-                head = nNode;
-                head.next = temp;
-            }
-            size++;
-            return true;
+        Node nNode = new Node(obj);
+
+        if(head == null)
+        {
+            head = nNode;
+            tail = nNode;
         }
-        return  false;
+        else
+        {
+            Node temp = head;
+            head = nNode;
+            head.next = temp;
+        }
+        size++;
+        return true;
     }
 
     public boolean pushEnd(Object data)
     {
-        if (size < size_limit)
-        {
-            Node nNode = new Node(data);
+        Node nNode = new Node(data);
 
-            if (head == null) {
-                head = nNode;
-                tail = nNode;
-            }
-            else
-            {
-                tail.next = nNode;
-                tail = tail.next;
-            }
-            size++;
-            return true;
+        if (head == null) {
+            head = nNode;
+            tail = nNode;
         }
-        return false;
+        else
+        {
+            tail.next = nNode;
+            tail = tail.next;
+        }
+        size++;
+        return true;
     }
 
     public boolean add(Object data, int index)
     {
-        if (size < size_limit)
+        Node nNode = new Node(data);
+
+        if (head == null)
         {
-            Node nNode = new Node(data);
-
-            if (head == null)
-            {
-                head = nNode;
-                tail = nNode;
-            }
-            else
-            {
-                Node temp, current;
-                temp = head;
-                current = null;
-
-                for (int i = 0; i < index; i++) {
-                    current = temp;
-                    temp = temp.next;
-                }
-
-                current.next = nNode;
-                nNode.next = temp;
-            }
-            size++;
-            return true;
+            head = nNode;
+            tail = nNode;
         }
-        return false;
+        else
+        {
+            Node temp, current;
+            temp = head;
+            current = null;
+
+            for (int i = 0; i < index; i++) {
+                current = temp;
+                temp = temp.next;
+            }
+
+            current.next = nNode;
+            nNode.next = temp;
+        }
+        size++;
+        return true;
     }
 
     public boolean delete(int index)
@@ -203,13 +191,7 @@ public class TList implements Serializable
     //GET
     //SET
     public int getSize(){ return this.size; }
-    public int getSize_limit(){return this.size_limit;}
-    public boolean setSize_limit(int limit){
-        if (limit <= 0 || limit <= size)
-            return false;
-        this.size_limit = limit;
-        return true;
-    }
+
     public Builder getBuilder() { return builder; }
 
     public boolean setBuilder(Builder builder)
@@ -238,15 +220,16 @@ public class TList implements Serializable
 
     public boolean sort()
     {
-        //quickSort(0,size-1);
-
-        //TList r = new TList(builder);
-        TList res = new TList(builder);
+        TList res = null;
         TList r = quicksort(this,res);
-
         this.head = r.head;
-        //this.head = quicksort(this).head;
+        this.tail = r.tail;
         return true;
+    }
+
+    public void sortOld()
+    {
+        quickSort(0,size-1);
     }
 
     private void quickSort(int low, int high) {
@@ -281,13 +264,17 @@ public class TList implements Serializable
 
     private void pushEnd(TList toInsert)
     {
-        tail.next=toInsert.head;
-        tail = tail.next;
-        size += toInsert.size;
+        if(toInsert!=null)
+        {
+            tail.next=toInsert.head;
+            tail = toInsert.tail;
+            size += toInsert.size;
+        }
     }
 
     private TList quicksort(TList list, TList res)
     {
+        res = new TList(builder);
         if(list == null)
             return list;
         Node head_ = list.head;
@@ -315,14 +302,15 @@ public class TList implements Serializable
         }
         lesser = quicksort(lesser,res);
         greater = quicksort(greater,res);
-        if(greater!=null)
-        {
+        //if(greater!=null)
+        //{
             res.pushEnd(head_.data);
             res.pushEnd(greater);
-        }
+        //}
         if(lesser==null)
             return res;
-        lesser.pushEnd(head_.data);
+        //lesser.pushEnd(head_.data);
+        lesser.pushEnd(res);
         return lesser;
     }
 
