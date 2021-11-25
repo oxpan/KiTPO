@@ -70,7 +70,8 @@ public class TList implements Serializable
 
     public boolean pushEnd(Object data)
     {
-        if (size < size_limit) {
+        if (size < size_limit)
+        {
             Node nNode = new Node(data);
 
             if (head == null) {
@@ -80,7 +81,7 @@ public class TList implements Serializable
             else
             {
                 tail.next = nNode;
-                tail = nNode;
+                tail = tail.next;
             }
             size++;
             return true;
@@ -237,7 +238,14 @@ public class TList implements Serializable
 
     public boolean sort()
     {
-        quickSort(0,size-1);
+        //quickSort(0,size-1);
+
+        //TList r = new TList(builder);
+        TList res = new TList(builder);
+        TList r = quicksort(this,res);
+
+        this.head = r.head;
+        //this.head = quicksort(this).head;
         return true;
     }
 
@@ -269,6 +277,53 @@ public class TList implements Serializable
         // Рекурсивная сортировка левого и правого подмножеств
         if (low < j) quickSort(low, j);
         if (high > i) quickSort(i, high);
+    }
+
+    private void pushEnd(TList toInsert)
+    {
+        tail.next=toInsert.head;
+        tail = tail.next;
+        size += toInsert.size;
+    }
+
+    private TList quicksort(TList list, TList res)
+    {
+        if(list == null)
+            return list;
+        Node head_ = list.head;
+        Node it = head_.next;
+        if(it==null)
+            return list;
+        TList lesser = null;
+        TList greater = null;
+        while(it != null)
+        {
+            int comp =comparator.compare(it.data,head_.data);
+            if(comp<0 || comp ==0)
+            {
+                if(lesser==null)
+                    lesser = new TList(builder);
+                lesser.pushEnd(it.data);
+            }
+            else
+            {
+                if(greater==null)
+                    greater = new TList(builder);
+                greater.pushEnd(it.data);
+            }
+            it = it.next;
+        }
+        lesser = quicksort(lesser,res);
+        greater = quicksort(greater,res);
+        if(greater!=null)
+        {
+            res.pushEnd(head_.data);
+            res.pushEnd(greater);
+        }
+        if(lesser==null)
+            return res;
+        lesser.pushEnd(head_.data);
+        return lesser;
     }
 
     private Node findNode(int id)
