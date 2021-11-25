@@ -149,13 +149,10 @@ public class ConsoleApp {
                     break;
                 case 9:
                     list.sort();
-
                     clr();
                     break;
                 case 10:
                     drawList();
-
-
                     in.nextLine();
                     clr();
                     break;
@@ -163,7 +160,6 @@ public class ConsoleApp {
                     System.out.println("Введите кол-во лементов");
                     int elem = in.nextInt();
                     in.nextLine();
-
                     testDriweStringList(elem);
                     in.nextLine();
                     clr();
@@ -171,7 +167,6 @@ public class ConsoleApp {
                     break;
                 case 12:
                     list.clear();
-
                     clr();
                     break;
                 case 13:

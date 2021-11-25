@@ -220,8 +220,7 @@ public class TList implements Serializable
 
     public boolean sort()
     {
-        TList res = null;
-        TList r = quicksort(this,res);
+        TList r = quicksort(this);
         this.head = r.head;
         this.tail = r.tail;
         return true;
@@ -272,9 +271,8 @@ public class TList implements Serializable
         }
     }
 
-    private TList quicksort(TList list, TList res)
+    private TList quicksort(TList list)
     {
-        res = new TList(builder);
         if(list == null)
             return list;
         Node head_ = list.head;
@@ -300,17 +298,16 @@ public class TList implements Serializable
             }
             it = it.next;
         }
-        lesser = quicksort(lesser,res);
-        greater = quicksort(greater,res);
-        //if(greater!=null)
-        //{
-            res.pushEnd(head_.data);
-            res.pushEnd(greater);
-        //}
+
+        lesser = quicksort(lesser);
+        greater = quicksort(greater);
+
+        TList buf = new TList(builder);
+        buf.pushEnd(head_.data);
+        buf.pushEnd(greater);
         if(lesser==null)
-            return res;
-        //lesser.pushEnd(head_.data);
-        lesser.pushEnd(res);
+            return buf;
+        lesser.pushEnd(buf);
         return lesser;
     }
 
