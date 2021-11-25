@@ -9,7 +9,7 @@ public class TList implements Serializable
 {
     private class Node implements Serializable
     {
-        public  Node next;
+        public Node next;
         public Object data;
 
         public Node(){}
@@ -23,7 +23,6 @@ public class TList implements Serializable
     private Node head;
     private Node tail;
     private int size;
-    private int size_limit;
     private Builder builder;
     private Comparator comparator;
 
@@ -34,7 +33,6 @@ public class TList implements Serializable
         this.head = null;
         this.tail = null;
         this.size = 0;
-        this.size_limit = 200;
     }
 
     public boolean clear()
@@ -48,75 +46,76 @@ public class TList implements Serializable
     }
 
     public boolean pushFront(Object obj){// vstavka v front
-        if(size < size_limit){
-            Node nNode = new Node(obj);
 
-            if(head == null)
-            {
-                head = nNode;
-                tail = nNode;
-            }
-            else
-            {
-                Node temp = head;
-                head = nNode;
-                head.next = temp;
-            }
-            size++;
-            return true;
+        Node nNode = new Node(obj);
+
+        if(head == null)
+        {
+            head = nNode;
+            tail = nNode;
         }
-        return  false;
+        else
+        {
+            Node temp = head;
+            head = nNode;
+            head.next = temp;
+        }
+        size++;
+        return true;
     }
 
     public boolean pushEnd(Object data)
     {
-        if (size < size_limit) {
-            Node nNode = new Node(data);
+        Node nNode = new Node(data);
 
-            if (head == null) {
-                head = nNode;
-                tail = nNode;
-            }
-            else
-            {
-                tail.next = nNode;
-                tail = nNode;
-            }
-            size++;
-            return true;
+        if (head == null) {
+            head = nNode;
+            tail = nNode;
         }
-        return false;
+        else
+        {
+            tail.next = nNode;
+            tail = tail.next;
+        }
+        size++;
+        return true;
+    }
+
+    private void pushEnd(TList toInsert)
+    {
+        if(toInsert!=null)
+        {
+            tail.next=toInsert.head;
+            tail = toInsert.tail;
+            size += toInsert.size;
+        }
     }
 
     public boolean add(Object data, int index)
     {
-        if (size < size_limit)
+        Node nNode = new Node(data);
+
+        if (head == null)
         {
-            Node nNode = new Node(data);
-
-            if (head == null)
-            {
-                head = nNode;
-                tail = nNode;
-            }
-            else
-            {
-                Node temp, current;
-                temp = head;
-                current = null;
-
-                for (int i = 0; i < index; i++) {
-                    current = temp;
-                    temp = temp.next;
-                }
-
-                current.next = nNode;
-                nNode.next = temp;
-            }
-            size++;
-            return true;
+            head = nNode;
+            tail = nNode;
         }
-        return false;
+        else
+        {
+            Node temp, current;
+            temp = head;
+            current = null;
+
+            for (int i = 0; i < index; i++) {
+                current = temp;
+                temp = temp.next;
+            }
+
+            current.next = nNode;
+            nNode.next = temp;
+        }
+        size++;
+        return true;
     }
 
     public boolean delete(int index)
@@ -199,27 +198,6 @@ public class TList implements Serializable
         return  -1;
     }
 
-    public int getSize(){ return this.size; }
-    public int getSize_limit(){return this.size_limit;}
-    public boolean setSize_limit(int limit){
-        if (limit <= 0 || limit <= size)
-            return false;
-        this.size_limit = limit;
-        return true;
-    }
-    public Builder getBuilder() { return builder; }
-
-    public boolean setBuilder(Builder builder)
-    {
-        if(size == 0)
-        {
-            this.builder = builder;
-            this.comparator = builder.getComparator();
-            return true;
-        }
-        return false;
-    };
-
     public void forEach(DoIt func)
     {
         if (head == null)
@@ -233,47 +211,17 @@ public class TList implements Serializable
         }
     }
 
-    public boolean sort()
+    public void sortOld()
     {
         quickSort(0,size-1);
-        return true;
     }
 
-    private void quickSort(int low, int high) {
-
-        if (size == 0)  return;
-
-        if (low >= high) return;
-
-        // Средний элемент
-        int middle = low + (high - low) / 2;
-        Object opora = find(middle);
-
-        // Деление СД на два подмножества
-        int i = low, j = high;
-        while (i <= j)
-        {
-            while (comparator.compare(find(i),opora)==-1) i++;
-
-            while (comparator.compare(find(j),opora)==1) j--;
-
-            if (i <= j)
-            {
-                swap(i,j);
-                i++;
-                j--;
-            }
-        }
-        // Рекурсивная сортировка левого и правого подмножеств
-        if (low < j) quickSort(low, j);
-        if (high > i) quickSort(i, high);
-    }
-
-    private Node findNode(int id)
+    public boolean sort()
     {
-        Node res = head;
-        for (int i = 0; i < id; i++) res = res.next;
-        return res;
+        TList r = quicksort(this);
+        this.head = r.head;
+        this.tail = r.tail;
+        return true;
     }
 
     private void swap (int q, int z)
@@ -309,4 +257,98 @@ public class TList implements Serializable
         if(q==0) head = nz;
         if(z==size-1) tail = nq;
     }
+
+    private void quickSort(int low, int high) {
+
+        if (size == 0)  return;
+
+        if (low >= high) return;
+
+        // Средний элемент
+        int middle = low + (high - low) / 2;
+        Object opora = find(middle);
+
+        // Деление СД на два подмножества
+        int i = low, j = high;
+        while (i <= j)
+        {
+            while (comparator.compare(find(i),opora)==-1) i++;
+
+            while (comparator.compare(find(j),opora)==1) j--;
+
+            if (i <= j)
+            {
+                swap(i,j);
+                i++;
+                j--;
+            }
+        }
+        // Рекурсивная сортировка левого и правого подмножеств
+        if (low < j) quickSort(low, j);
+        if (high > i) quickSort(i, high);
+    }
+
+    private TList quicksort(TList list)
+    {
+        if(list == null)
+            return list;
+        Node head_ = list.head;
+        Node it = head_.next;
+        if(it==null)
+            return list;
+        TList lesser = null;
+        TList greater = null;
+        while(it != null)
+        {
+            int comp =comparator.compare(it.data,head_.data);
+            if(comp<0 || comp ==0)
+            {
+                if(lesser==null)
+                    lesser = new TList(builder);
+                lesser.pushEnd(it.data);
+            }
+            else
+            {
+                if(greater==null)
+                    greater = new TList(builder);
+                greater.pushEnd(it.data);
+            }
+            it = it.next;
+        }
+
+        lesser = quicksort(lesser);
+        greater = quicksort(greater);
+
+        TList buf = new TList(builder);
+        buf.pushEnd(head_.data);
+        buf.pushEnd(greater);
+        if(lesser==null)
+            return buf;
+        lesser.pushEnd(buf);
+        return lesser;
+    }
+
+    private Node findNode(int id)
+    {
+        Node res = head;
+        for (int i = 0; i < id; i++) res = res.next;
+        return res;
+    }
+
+    //GET
+    //SET
+    public int getSize(){ return this.size; }
+
+    public Builder getBuilder() { return builder; }
+
+    public boolean setBuilder(Builder builder)
+    {
+        if(size == 0)
+        {
+            this.builder = builder;
+            this.comparator = builder.getComparator();
+            return true;
+        }
+        return false;
+    };
 }
